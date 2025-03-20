@@ -1,0 +1,96 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+ :root {
+	--cdg-button-border-radius: 25px;
+	--cdg-button-padding: 0.5rem 1rem;
+	--cdg-button-background: #fff;
+	--cdg-button-color: #000;
+	--cdg-button-border: 1px solid #000;
+	--cdg-button-hover-background: #000;
+	--cdg-button-hover-color: #fff;
+	--cdg-button-hover-border: 1px solid #000;
+	--cdg-grid-gap: 2rem;
+	--cdg-img-min-width: 200px;
+	--cdg-img-aspect-ratio: 1.5;
+ }
+
+.wp-block-carkeek-blocks-dynamic-grid {
+
+
+	& .cdg-filter-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 3rem;
+		& button {
+			padding: var(--cdg-button-padding);
+			border-radius: var(--cdg-button-border-radius);
+			background: var(--cdg-button-background);
+			color: var(--cdg-button-color);
+			border: var(--cdg-button-border);
+			&:hover,
+			&.active {
+				background: var(--cdg-button-hover-background);
+				color: var(--cdg-button-hover-color);
+				border: var(--cdg-button-hover-border);
+			}
+		}
+	}
+
+	& .cdg-grid-wrapper {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(var(--cdg-img-min-width), 1fr));
+		grid-gap: var(--cdg-grid-gap);
+
+		& h2 {
+			font-size: 1rem;
+		}
+		& img {
+			width: 100%;
+			height: auto;
+			aspect-ratio: var(--cdg-img-aspect-ratio, 1.5);
+			object-fit: cover;
+		}
+	}
+
+	&.is-style-meta-overlay {
+		& .cdg-grid-item {
+			position: relative;
+
+			& .cdg-item-meta {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				background-color: rgba(0, 0, 0, 0.65);
+				color: white;
+				opacity: 0;
+				transition: opacity 0.3s;
+				& * {
+					color: #fff;
+				}
+			}
+
+			&:hover {
+				& .cdg-item-meta {
+					opacity: 1;
+				}
+			}
+		}
+
+	}
+
+
+
+}
+
+
