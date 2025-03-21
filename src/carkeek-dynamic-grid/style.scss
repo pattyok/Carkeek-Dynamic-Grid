@@ -54,6 +54,7 @@
 			height: auto;
 			aspect-ratio: var(--cdg-img-aspect-ratio, 1.5);
 			object-fit: cover;
+			overflow-clip-margin: unset;
 		}
 	}
 

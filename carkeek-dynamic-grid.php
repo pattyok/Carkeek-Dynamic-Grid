@@ -1,14 +1,17 @@
 <?php
 /**
  * Plugin Name:       Carkeek Dynamic Grid
- * Description:       Example block scaffolded with Create Block tool.
- * Version:           0.1.01
+ * Description:       Make a filterable grid of posts
+ * Version:           0.1.02
  * Requires at least: 6.7
  * Requires PHP:      7.4
- * Author:            The WordPress Contributors
+ * Author:            Carkeek Studios
+ * Author URI:        https://carkeekstudios.com/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * GitHub Plugin URI: https://github.com/pattyok/Carkeek-Dynamic-Grid
  * Text Domain:       carkeek-dynamic-grid
+ * Primary Branch: 	  main
  *
  * @package CreateBlock
  */

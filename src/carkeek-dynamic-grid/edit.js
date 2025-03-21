@@ -60,13 +60,11 @@ function dynamicGridEdit( props ) {
 	}
 	, [posts]);
 	useEffect(() => {
-		console.log('showMetaAsOverlay', showMetaAsOverlay);
 		if (showMetaAsOverlay) {
 			setBlockStyles('is-style-meta-overlay');
 		} else {
 			setBlockStyles('');
 		}
-		console.log('blockStyles', blockStyles);
 	}
 	, [showMetaAsOverlay]);
 
