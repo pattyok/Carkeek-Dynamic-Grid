@@ -2,14 +2,24 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "carkeek-blocks/dynamic-grid",
-  "version": "0.1.0",
+  "version": "0.1.01",
   "title": "Dynamic Post Grid",
   "category": "widgets",
   "icon": "layout",
   "description": "Display and Filter Posts with a dynamic grid.",
   "example": {},
   "supports": {
-    "html": false
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "className": true,
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
   },
   "attributes": {
     "postTypeSelected": {
@@ -74,6 +84,10 @@
     "showMetaAsOverlay": {
       "type": "boolean",
       "default": true
+    },
+    "gridGap": {
+      "type": "number",
+      "default": 3
     }
   },
   "textdomain": "carkeek-dynamic-grid",

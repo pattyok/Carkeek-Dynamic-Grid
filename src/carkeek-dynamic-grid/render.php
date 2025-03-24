@@ -4,7 +4,8 @@
  *
  * @package CarkeekDynamicGrid
  */
-
+error_log('render.php');
+error_log(print_r($attributes, true));
 $tax = $attributes['taxonomySelected'] ? $attributes['taxonomySelected'] : 'category';
 $post_type = $attributes['postTypeSelected'] ? $attributes['postTypeSelected'] : 'post';
 $order_by = $attributes['sortPostsBy'] ? $attributes['sortPostsBy'] : 'date';
@@ -17,6 +18,12 @@ $tax_url = apply_filters( 'ck_dynamicgrid_taxurl', $tax_url, $attributes );
 $image_size = apply_filters( 'ck_dynamicgrid_imagesize', $attributes['imageSize'], $attributes );
 
 $layout_style = $attributes['showMetaAsOverlay'] ? 'is-style-meta-overlay' : '';
+
+$grid_gap = '1.5rem';
+if ( isset( $attributes['gridGap'] ) ){
+	$grid_gap = 'var(--wp--preset--spacing--' . $attributes['gridGap'] . '0)';
+
+}
 ?>
 
 <div <?php echo get_block_wrapper_attributes( array('class' => $layout_style . ' post-type-' . $post_type)); ?>>
@@ -24,6 +31,7 @@ $layout_style = $attributes['showMetaAsOverlay'] ? 'is-style-meta-overlay' : '';
 		#carkeek-dynamic-grid {
 			--cdg-img-aspect-ratio: <?php echo $attributes['imageOrientation']; ?>;
 			--cdg-img-min-width: <?php echo $attributes['minImageWidth'] . 'px'; ?>;
+			--cdg-grid-gap: <?php echo $grid_gap; ?>;
 		}
 	</style>
 	<div id="carkeek-dynamic-grid"

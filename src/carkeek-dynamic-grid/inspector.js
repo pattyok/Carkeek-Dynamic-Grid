@@ -10,6 +10,7 @@ import {
     TextareaControl,
     TextControl
 } from "@wordpress/components";
+import marks from './marks';
 import { useEffect, useState } from "@wordpress/element";
 
 
@@ -34,7 +35,8 @@ function postsInspector(props) {
         imageOrientation,
         imageSize,
         showDate,
-		showMetaAsOverlay
+		showMetaAsOverlay,
+		gridGap
     } = attributes;
 
     let ptOptions = [];
@@ -147,6 +149,17 @@ function postsInspector(props) {
 						min={0}
 						max={600}
 						step={5}
+					/>
+					<RangeControl
+						label= "Grid Gap"
+						value={ gridGap }
+						onChange={ ( gridGap ) => setAttributes( { gridGap } ) }
+						min={ 0 }
+						max={ 8 }
+						step={ 1 }
+						type="stepper"
+						withInputField={ false }
+						marks={ marks['gridGap'] }
 					/>
 					<ToggleControl
                         label={__("Show Meta as Overlay")}

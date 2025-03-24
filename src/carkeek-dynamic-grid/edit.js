@@ -30,7 +30,8 @@ function dynamicGridEdit( props ) {
 		imageSize,
 		minImageWidth,
 		imageOrientation,
-		showMetaAsOverlay
+		showMetaAsOverlay,
+		gridGap
     } = attributes;
     if ( ! blockId ) {
         setAttributes( { blockId: clientId } );
@@ -71,6 +72,8 @@ function dynamicGridEdit( props ) {
 	const blockProps = useBlockProps({className: `${blockStyles}`});
 	document.documentElement.style.setProperty('--cdg-img-aspect-ratio', imageOrientation);
 	document.documentElement.style.setProperty('--cdg-img-min-width', minImageWidth + 'px');
+	document.documentElement.style.setProperty('--cdg-grid-gap', 'var(--wp--preset--spacing--' + gridGap + '0)');
+
 
     return (
         <div { ...blockProps } >
@@ -85,6 +88,7 @@ function dynamicGridEdit( props ) {
 					setFiltered={setFiltered}
 					tax={taxonomySelected}
 					imageSize={props.imageSize}
+					gridGap={props.gridGap}
 				/>
 
         </div>
