@@ -56,11 +56,17 @@ function App(props){
 	}, []);
 
 	useEffect(() => {
+
 		if (selectedCat !== 0) {
 			const urlParams = new URLSearchParams(window.location.search);
 			urlParams.set(tax, selectedCat);
 			window.history.replaceState(null, null, `?${urlParams.toString()}`);
+		} else {
+			const urlParams = new URLSearchParams(window.location.search);
+			urlParams.delete(tax);
+			window.history.replaceState(null, null, `?${urlParams.toString()}`);
 		}
+
 	}, [selectedCat]);
 
 	return (

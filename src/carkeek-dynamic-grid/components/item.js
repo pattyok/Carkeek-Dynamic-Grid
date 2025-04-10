@@ -1,12 +1,19 @@
 import { motion } from "framer-motion";
 
 function Item ( {post, imageSize} ) {
-	const image = post.fimg_url !== false ? post.fimg_url : 'https://via.placeholder.com/150';
-	let style = {};
-	if (post.meta._carkeekblocks_featured_image_focal_point.length !== 0) {
-		const focalPoint = post.meta._carkeekblocks_featured_image_focal_point;
-		style.objectPosition = `${focalPoint.x * 100}% ${focalPoint.y * 100}%`;
+
+	let image = '';
+	if (post.fimg_url !== false) {
+		let style = {};
+		if (post.meta._carkeekblocks_featured_image_focal_point.length !== 0) {
+			const focalPoint = post.meta._carkeekblocks_featured_image_focal_point;
+			style.objectPosition = `${focalPoint.x * 100}% ${focalPoint.y * 100}%`;
+		}
+		image = <img src={post.fimg_url} alt={post.title.rendered} style={style} />;
+	} else {
+		image = <div className="cdg-no-image"></div>;
 	}
+
 	return (
 		<motion.div
 		layout
@@ -16,7 +23,7 @@ function Item ( {post, imageSize} ) {
 		key={post.id}
 		className="cdg-grid-item">
 			<a href={post.link}>
-			<img src={image} alt={post.title.rendered} style={style} />
+			{image}
 			<div className="cdg-item-meta">
 				<h2 dangerouslySetInnerHTML={{__html: post.title.rendered }}></h2>
 			</div>
