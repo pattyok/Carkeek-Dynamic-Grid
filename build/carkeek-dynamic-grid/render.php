@@ -4,13 +4,12 @@
  *
  * @package CarkeekDynamicGrid
  */
-error_log('render.php');
-error_log(print_r($attributes, true));
+
 $tax = $attributes['taxonomySelected'] ? $attributes['taxonomySelected'] : 'category';
 $post_type = $attributes['postTypeSelected'] ? $attributes['postTypeSelected'] : 'post';
 $order_by = $attributes['sortPostsBy'] ? $attributes['sortPostsBy'] : 'date';
 $order = $attributes['sortPostsOrder'] ? $attributes['sortPostsOrder'] : 'desc';
-$tax_url = get_rest_url() . 'wp/v2/' . $tax . '?per_page=100';
+$tax_url = get_rest_url() . 'wp/v2/' . $tax . '?per_page=100&hide_empty=1';
 $post_url = get_rest_url() . 'wp/v2/' . $post_type . '?per_page=100&fields=fimg_url,id,title,excerpt,link,featured_media,' . $tax . '&orderby=' . $order_by . '&order=' . $order;
 
 $post_url = apply_filters( 'ck_dynamicgrid_dataurl', $post_url, $attributes );
