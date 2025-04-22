@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 function Item ( {post, imageSize} ) {
 
@@ -14,14 +15,20 @@ function Item ( {post, imageSize} ) {
 		image = <div className="cdg-no-image"></div>;
 	}
 
+	const { ref, inView, entry } = useInView({
+		/* Optional options */
+		rootMargin: "-50% 0% -50% 0%",
+	  });
+
 	return (
 		<motion.div
+		ref={ref}
 		layout
 		animate={{opacity: 1}}
 		initial={{opacity: 0}}
 		exit={{opacity: 0}}
 		key={post.id}
-		className="cdg-grid-item">
+		className={inView ? 'cdg-grid-item active' : 'cdg-grid-item'}>
 			<a href={post.link}>
 			{image}
 			<div className="cdg-item-meta">

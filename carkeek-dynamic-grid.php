@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Carkeek Dynamic Grid
  * Description:       Make a filterable grid of posts
- * Version:           0.1.07
+ * Version:           0.1.08
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            Carkeek Studios

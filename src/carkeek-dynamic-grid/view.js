@@ -98,5 +98,9 @@ if (document.getElementById('carkeek-dynamic-grid')) {
 
 	const root = createRoot(gridEl);
 	root.render(<App dataUrl={dataUrl} taxUrl={taxUrl} tax={tax} imageSize={imageSize} />);
+
+
+
+
 }
 

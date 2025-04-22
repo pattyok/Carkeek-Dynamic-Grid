@@ -105,3 +105,22 @@
 }
 
 
+	@media (hover: none){
+	.wp-block-carkeek-blocks-dynamic-grid {
+		&.is-style-meta-overlay {
+			& .cdg-grid-item {
+				& .cdg-item-meta {
+					top: auto;
+					height: 40px;
+				}
+				&.active {
+					& .cdg-item-meta {
+						opacity: 1;
+					}
+				}
+
+			}
+		}
+	}
+}
+
