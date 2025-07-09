@@ -18,6 +18,8 @@
 		"@wordpress/scripts": "^30.9.0"
 	},
 	"dependencies": {
+		"@10up/block-components": "^1.21.2",
+		"classnames": "^2.5.1",
 		"framer-motion": "^12.0.1",
 		"react-intersection-observer": "^9.16.0"
 	}

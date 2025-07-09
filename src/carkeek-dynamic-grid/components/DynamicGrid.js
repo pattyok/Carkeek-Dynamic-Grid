@@ -11,20 +11,23 @@ function DynamicGrid(props) {
 		selectedCat,
 		setFiltered,
 		setSelectedCat,
-		tax,
-		imageSize
+		filterTax,
+		imageSize,
+		showMeta,
+		meta
 	} = props;
-
 
 	if (!isLoading) {
 		return (
 			<>
-			<Filter terms={categories} selectedCat={selectedCat} setSelectedCat={setSelectedCat} setFiltered={setFiltered} posts={posts} filtered={filtered} tax={tax} />
+			{(filterTax !== 'none' && filterTax !== '') && (
+				<Filter terms={categories[filterTax]} selectedCat={selectedCat} setSelectedCat={setSelectedCat} setFiltered={setFiltered} posts={posts} filtered={filtered} tax={filterTax} />
+			)}
 			<motion.div layout className="cdg-grid-wrapper">
 				<AnimatePresence>
 				{filtered?.map(post => {
 					return (
-						<Item key={post.id} post={post} imageSize={imageSize} />
+						<Item key={post.id} post={post} terms={categories} showMeta={showMeta} meta={meta} imageSize={imageSize} />
 					)
 				})}
 				</AnimatePresence>

@@ -1,5 +1,6 @@
 import { InspectorControls, InspectorAdvancedControls } from "@wordpress/block-editor";
-import _ from "lodash";
+import { Repeater } from '@10up/block-components';
+import _, { set } from "lodash";
 import { __ } from "@wordpress/i18n";
 import {
     RangeControl,
@@ -7,9 +8,10 @@ import {
     ToggleControl,
     RadioControl,
     SelectControl,
-    TextareaControl,
+    Button,
     TextControl
 } from "@wordpress/components";
+import { wordpress } from '@wordpress/icons';
 import marks from './marks';
 import { useEffect, useState } from "@wordpress/element";
 
@@ -36,7 +38,11 @@ function postsInspector(props) {
         imageSize,
         showDate,
 		showMetaAsOverlay,
-		gridGap
+		metaFields,
+		showMetaOnHover,
+		gridGap,
+		layoutStyle,
+		tileLayout
     } = attributes;
 
     let ptOptions = [];
@@ -50,6 +56,7 @@ function postsInspector(props) {
         const selectAnItem = { value: null, label: 'Select a Post Type' };
         ptOptions.unshift(selectAnItem);
     }
+
     let sizeOptions = [];
     if (imageSizes) {
         sizeOptions = imageSizes.map(type => ({
@@ -66,10 +73,10 @@ function postsInspector(props) {
             label: type.name
         }));
     }
-    if (!taxonomySelected) {
-        const selectAnItem = { value: null, label: 'Select a Taxonomy' };
-        taxOptions.unshift(selectAnItem);
-    }
+
+	const selectAnItem = { value: 'none', label: 'Select a Taxonomy' };
+	taxOptions.unshift(selectAnItem);
+
     const postTypeSelect = (
         <SelectControl
             label={__("Post Type", "carkeek-blocks")}
@@ -79,8 +86,13 @@ function postsInspector(props) {
         />
     );
 
-
-
+	useEffect(() => {
+		if (layoutStyle === 'tiles') {
+			setAttributes({
+				showMetaAsOverlay: true,
+			});
+		}
+	}, [layoutStyle, setAttributes]);
 
     const taxonomySelect = (
         <>
@@ -89,7 +101,7 @@ function postsInspector(props) {
 			?
 			<>
 				<SelectControl
-					label={__("Select Taxonomy", "carkeek-blocks")}
+					label={__("Select Filter Taxonomy", "carkeek-blocks")}
 					onChange={(taxonomySelected) => setAttributes({ taxonomySelected })}
 					options={taxOptions}
 					value={taxonomySelected}
@@ -107,9 +119,7 @@ function postsInspector(props) {
             <InspectorControls>
 			<PanelBody title={__("Posts Settings", "carkeek-blocks")}>
                     {postTypeSelect}
-                    {postTypeSelected && (
-                        <> {taxonomySelect} </>
-                    )}
+
                     <SelectControl
                         label={__("Sort By", "carkeek-blocks")}
                         onChange={value =>
@@ -140,16 +150,50 @@ function postsInspector(props) {
                         }
                     />
                 </PanelBody>
+				{postTypeSelected && (
+					<PanelBody title={__("Filter Settings", "carkeek-blocks")} initialOpen={false}>
+                        <> {taxonomySelect} </>
+					</PanelBody>
+                )}
                 <PanelBody title={__("Layout", "carkeek-blocks")} initialOpen={false}>
-
-					<RangeControl
-						label={__("Min Image Width", "carkeek-blocks")}
-						value={minImageWidth}
-						onChange={(minImageWidth) => setAttributes({ minImageWidth })}
-						min={0}
-						max={600}
-						step={5}
+					<RadioControl
+						label={__("Layout Style", "carkeek-blocks")}
+						selected={layoutStyle}
+						options={[
+							{ label: __("Grid"), value: "grid" },
+							{ label: __("Tiles"), value: "tiles" },
+						]}
+						onChange={value =>
+							setAttributes({
+								layoutStyle: value
+							})
+						}
 					/>
+					{layoutStyle === 'grid' &&
+						<RangeControl
+							label={__("Min Image Width", "carkeek-blocks")}
+							value={minImageWidth}
+							onChange={(minImageWidth) => setAttributes({ minImageWidth })}
+							min={0}
+							max={600}
+							step={5}
+						/>
+					}
+					{layoutStyle === 'tiles' &&
+					<RadioControl
+						label={__("Tile Layout", "carkeek-blocks")}
+						selected={tileLayout}
+						options={[
+							{ label: __("Layout 1 (large)"), value: "large" },
+							{ label: __("Layout 2 (smaller)"), value: "small" },
+						]}
+						onChange={value =>
+							setAttributes({
+								tileLayout: value
+							})
+						}
+					/>
+			}
 					<RangeControl
 						label= "Grid Gap"
 						value={ gridGap }
@@ -161,17 +205,36 @@ function postsInspector(props) {
 						withInputField={ false }
 						marks={ marks['gridGap'] }
 					/>
-					<ToggleControl
-                        label={__("Show Meta as Overlay")}
-                        checked={showMetaAsOverlay}
-                        onChange={value =>
-                            setAttributes({ showMetaAsOverlay: value })
-                        }
-                    />
+
 
                 </PanelBody>
 
                 <PanelBody title={__("Item Style", "carkeek-blocks")} initialOpen={false}>
+					{layoutStyle === 'grid' && (
+						<ToggleControl
+							label={__("Show Meta as Overlay")}
+							checked={showMetaAsOverlay}
+							onChange={value =>
+								setAttributes({ showMetaAsOverlay: value })
+							}
+						/>
+					)}
+
+					{showMetaAsOverlay && (
+						<ToggleControl
+							label={__("Show Meta on Hover")}
+							checked={showMetaOnHover}
+							help={
+								showMetaOnHover
+									? 'Only show meta on hover'
+									: 'Always show meta'
+							}
+							onChange={value =>
+								setAttributes({ showMetaOnHover: value })
+							}
+						/>
+					)}
+
 					<ToggleControl
                         label={__("Show Title")}
                         checked={showTitle}
@@ -225,6 +288,33 @@ function postsInspector(props) {
                             />
                         </>
                     }
+				</PanelBody>
+				<PanelBody title={__("Meta Fields", "carkeek-blocks")} initialOpen={false}>
+					<div className="block-editor-repeater">
+					<Repeater attribute="metaFields" allowReordering={true} addButton={__('Add Meta Field', 'carkeek-blocks')} removeButton={__('Remove Meta Field', 'carkeek-blocks')} label={__("Meta Fields", "carkeek-blocks")} emptyMessage={__("No meta fields added yet.", "carkeek-blocks")}>
+						{( item, index, setItem, removeItem ) => (
+							<>
+								<div className="block-editor-repeater__item">
+									<SelectControl
+										label={__("Field Type", "carkeek-blocks")}
+										value={item.type}
+										onChange={(value) => setItem({ ...item, type: value })}
+										options={[
+											{ label: __("ACF Field", "carkeek-blocks"), value: "acf" },
+											{ label: __("Custom Field", "carkeek-blocks"), value: "meta" },
+											{ label: __("Post Meta", "carkeek-blocks"), value: "postmeta" },
+											{ label: __("Taxonomy Terms", "carkeek-blocks"), value: "taxonomy" },
+										]}
+									/>
+									<TextControl key={index} label={__('Field', 'carkeek-blocks')} value={item.fieldName} onChange={(value) => setItem({ ...item, fieldName: value })} />
+									<Button
+									icon='remove' label={__('Remove')} onClick={removeItem}/>
+								</div>
+							</>
+						)}
+					</Repeater>
+					</div>
+
 
                 </PanelBody>
 

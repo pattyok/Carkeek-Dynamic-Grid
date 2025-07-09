@@ -5,6 +5,7 @@ import {
     Placeholder,
 } from "@wordpress/components";
 import {  useBlockProps,  BlockControls } from "@wordpress/block-editor";
+import classnames from "classnames";
 
 import PostsInspector from "./inspector";
 import DynamicGrid from "./components/DynamicGrid";
@@ -31,7 +32,8 @@ function dynamicGridEdit( props ) {
 		minImageWidth,
 		imageOrientation,
 		showMetaAsOverlay,
-		gridGap
+		gridGap,
+		layoutStyle,
     } = attributes;
     if ( ! blockId ) {
         setAttributes( { blockId: clientId } );
@@ -54,25 +56,25 @@ function dynamicGridEdit( props ) {
 	const [filtered, setFiltered] = useState(posts);
 	const [cats, setCats] = useState([]);
 	const [selectedCat, setSelectedCat] = useState(0);
-	const [blockStyles, setBlockStyles] = useState('');
 
 	useEffect(() => {
 		setFiltered(posts);
 	}
-	, [posts]);
-	useEffect(() => {
-		if (showMetaAsOverlay) {
-			setBlockStyles('is-style-meta-overlay');
-		} else {
-			setBlockStyles('');
-		}
-	}
-	, [showMetaAsOverlay]);
+	, [posts, taxonomySelected]);
+
+
+	const blockStyles = classnames( {
+        [ `is-style-meta-overlay` ]: showMetaAsOverlay,
+        [ `is-style-${ layoutStyle }` ]: layoutStyle,
+		[ `is-tile-style-${ attributes.tileLayout }` ]: layoutStyle === 'tiles'
+    } );
 
 	const blockProps = useBlockProps({className: `${blockStyles}`});
 	document.documentElement.style.setProperty('--cdg-img-aspect-ratio', imageOrientation);
 	document.documentElement.style.setProperty('--cdg-img-min-width', minImageWidth + 'px');
 	document.documentElement.style.setProperty('--cdg-grid-gap', 'var(--wp--preset--spacing--' + gridGap + '0)');
+	document.documentElement.style.setProperty('--ck-grid-row-height', '40px');
+
 
 
     return (
@@ -86,9 +88,12 @@ function dynamicGridEdit( props ) {
 					filtered={filtered}
 					setSelectedCat={setSelectedCat}
 					setFiltered={setFiltered}
-					tax={taxonomySelected}
+					filterTax={taxonomySelected}
 					imageSize={props.imageSize}
+					layoutStyle={layoutStyle}
 					gridGap={props.gridGap}
+					showMeta= {props.showMeta}
+					metaFields={props.metaFields}
 				/>
 
         </div>
@@ -97,14 +102,25 @@ function dynamicGridEdit( props ) {
 
 
 export default withSelect((select, props) => {
-
+	console.log(props);
     const { attributes } = props;
-    const { postTypeSelected, taxonomySelected } = attributes;
+    const { postTypeSelected, taxonomySelected, metaFields } = attributes;
     const { getEntityRecords,  getPostTypes, getTaxonomies } = select("core");
     const { getSettings } = select( 'core/block-editor' );
-    const taxTerms = getEntityRecords('taxonomy', taxonomySelected, { per_page: -1 } );
+    const taxTerms = {};
     const { imageSizes } = getSettings();
 	const posts = getEntityRecords('postType', postTypeSelected);
+
+	if ( taxonomySelected && taxonomySelected !== 'none' ) {
+		taxTerms[taxonomySelected] = getEntityRecords('taxonomy', taxonomySelected, { per_page: -1 })
+	}
+	if ( Array.isArray(metaFields) ) {
+		metaFields.forEach(field => {
+			if ( field.type === 'taxonomy' && field.fieldName && !taxTerms[field.fieldName] ) {
+				taxTerms[field.fieldName] = getEntityRecords('taxonomy', field.fieldName, { per_page: -1 });
+			}
+		});
+	}
 
     let taxonomies = getTaxonomies({ per_page: -1 });
     taxonomies = !Array.isArray(taxonomies)

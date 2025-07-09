@@ -38,6 +38,14 @@
 			"type": "string",
 			"default": "desc"
 		},
+		"layoutStyle": {
+			"type": "string",
+			"default": "grid"
+		},
+		"tileLayout": {
+			"type": "string",
+			"default": "large"
+		},
 		"minImageWidth": {
 			"type": "number",
 			"default": 300
@@ -66,19 +74,25 @@
 			"type": "boolean",
 			"default": true
 		},
-		"showMeta": {
-			"type": "boolean",
-			"default": true
-		},
 		"metaFields": {
 			"type": "array",
-			"default": []
+			"default": [
+				{
+					"type": "acf",
+					"fieldName": ""
+				}
+
+			]
 		},
 		"showDate": {
 			"type": "boolean",
 			"default": true
 		},
 		"showMetaAsOverlay": {
+			"type": "boolean",
+			"default": true
+		},
+		"showMetaOnHover": {
 			"type": "boolean",
 			"default": true
 		},
