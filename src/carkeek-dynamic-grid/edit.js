@@ -29,11 +29,12 @@ function dynamicGridEdit( props ) {
         blockId,
 		taxonomySelected,
 		imageSize,
+		showMetaOnHover,
 		minImageWidth,
 		imageOrientation,
 		showMetaAsOverlay,
 		gridGap,
-		layoutStyle,
+		layoutStyle
     } = attributes;
     if ( ! blockId ) {
         setAttributes( { blockId: clientId } );
@@ -65,6 +66,7 @@ function dynamicGridEdit( props ) {
 
 	const blockStyles = classnames( {
         [ `is-style-meta-overlay` ]: showMetaAsOverlay,
+		[ `is-style-meta-hover` ]: showMetaOnHover,
         [ `is-style-${ layoutStyle }` ]: layoutStyle,
 		[ `is-tile-style-${ attributes.tileLayout }` ]: layoutStyle === 'tiles'
     } );
@@ -102,7 +104,6 @@ function dynamicGridEdit( props ) {
 
 
 export default withSelect((select, props) => {
-	console.log(props);
     const { attributes } = props;
     const { postTypeSelected, taxonomySelected, metaFields } = attributes;
     const { getEntityRecords,  getPostTypes, getTaxonomies } = select("core");

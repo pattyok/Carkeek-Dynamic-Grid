@@ -33,7 +33,8 @@ $image_size = apply_filters( 'ck_dynamicgrid_imagesize', $attributes['imageSize'
 
 $layout_style = $attributes['showMetaAsOverlay'] ? 'is-style-meta-overlay' : '';
 
-if ( $attributes['showMetaOnHover'] ) {
+if ( $attributes['showMetaOnHover'] == true ) {
+
 	$layout_style .= ' is-style-meta-hover';
 }
 
@@ -77,5 +78,6 @@ if ( isset( $attributes['gridGap'] ) ){
 		data-taxurls="<?php echo esc_attr( json_encode( $tax_urls ) ); ?>"
 		data-filter-tax="<?php echo esc_attr( $tax ); ?>"
 		data-imagesize="<?php echo esc_attr( $image_size ); ?>"
+		data-loading-text="<?php echo esc_attr( $attributes['loadingText'] ); ?>"
 	></div>
 </div>

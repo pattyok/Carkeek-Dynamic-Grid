@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 function Filter( {	terms, posts, selectedCat, setSelectedCat, setFiltered, tax} ) {
 
 	useEffect(() => {
+		console.log(selectedCat);
 		if (selectedCat === 0) {
 			setFiltered(posts);
 			return;
@@ -15,7 +16,7 @@ function Filter( {	terms, posts, selectedCat, setSelectedCat, setFiltered, tax} 
 
 	return (
 		<div className="cdg-filter-wrapper">
-			<button onClick={() => setSelectedCat(0)}>All</button>
+			<button onClick={() => setSelectedCat(0)} className={selectedCat === 0 ? 'active' : ''}>All</button>
 			{terms?.map((term) => (
 				<button
 					key={term.id}

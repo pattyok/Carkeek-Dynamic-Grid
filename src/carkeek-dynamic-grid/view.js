@@ -98,7 +98,8 @@ function App(props){
 			<DynamicGrid
 				meta={meta}
 				showMeta={meta.length > 0}
-				isLoading={loading.loadingPosts || loading.loadingCats}
+				isLoadingPosts={loading.loadingPosts}
+				isLoadingCats={loading.loadingCats}
 				posts={posts}
 				categories={cats}
 				filtered={filtered}
@@ -107,6 +108,7 @@ function App(props){
 				setFiltered={setFiltered}
 				filterTax={filterTax}
 				imageSize={props.imageSize}
+				loadingText={props.loadingText}
 			/>
 
 		</>
@@ -122,9 +124,10 @@ if (document.getElementById('carkeek-dynamic-grid')) {
 	const filterTax = gridEl.getAttribute('data-filter-tax');
 	const imageSize = gridEl.getAttribute('data-imagesize');
 	const meta = gridEl.getAttribute('data-meta');
+	const loadingText = gridEl.getAttribute('data-loading-text');
 
 	const root = createRoot(gridEl);
-	root.render(<App dataUrl={dataUrl} taxUrls={taxUrls} filterTax={filterTax} imageSize={imageSize} meta={meta} />);
+	root.render(<App dataUrl={dataUrl} loadingText={loadingText} taxUrls={taxUrls} filterTax={filterTax} imageSize={imageSize} meta={meta} />);
 }
 
 function setGalleryHeight() {

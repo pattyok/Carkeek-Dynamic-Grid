@@ -42,7 +42,8 @@ function postsInspector(props) {
 		showMetaOnHover,
 		gridGap,
 		layoutStyle,
-		tileLayout
+		tileLayout,
+		loadingText
     } = attributes;
 
     let ptOptions = [];
@@ -204,6 +205,12 @@ function postsInspector(props) {
 						type="stepper"
 						withInputField={ false }
 						marks={ marks['gridGap'] }
+					/>
+					<TextControl
+						label={__("Loading Text", "carkeek-blocks")}
+						value={loadingText}
+						onChange={(loadingText) => setAttributes({ loadingText })}
+						help={__("Text to display while posts are loading.", "carkeek-blocks")}
 					/>
 
 

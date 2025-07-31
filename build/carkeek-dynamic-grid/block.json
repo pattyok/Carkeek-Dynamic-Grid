@@ -101,6 +101,10 @@
     "gridGap": {
       "type": "number",
       "default": 3
+    },
+    "loadingText": {
+      "type": "string",
+      "default": "Loading..."
     }
   },
   "textdomain": "carkeek-dynamic-grid",
