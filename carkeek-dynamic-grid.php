@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Carkeek Dynamic Grid
  * Description:       Make a filterable grid of posts
- * Version:           0.1.10
+ * Version:           0.1.11
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            Carkeek Studios
@@ -61,7 +61,7 @@ function get_rest_featured_image( $object, $field_name, $request ) {
 add_filter( 'rest_endpoints', function( $endpoints ) {
     foreach ( $endpoints as $route => &$endpoint ) {
         foreach ( $endpoint as &$handler ) {
-            if ( isset( $handler['args']['orderby'] ) ) {
+            if ( is_array($handler) && isset($handler['args']) && isset( $handler['args']['orderby'] ) ) {
                 $handler['args']['orderby']['enum'][] = 'menu_order';
             }
         }
